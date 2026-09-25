@@ -1,6 +1,6 @@
 # Dokumentacja Skryptów Konfiguracyjnych
 
-> *English version of the scripts documentation is available in [README.md](README.md).*
+> Angielska wersja dokumentacji skryptów dostępna jest w pliku [README.md](README.md).
 
 Katalog ten zawiera główny skrypt inicjalizujący `setup_mpc.m`, którego zadaniem jest skonstruowanie, skonfigurowanie i sparametryzowanie obiektu regulatora predykcyjnego (`mpc_obj`) oraz jego stanu (`xmpc`) w przestrzeni roboczej programu MATLAB przed uruchomieniem symulacji w Simulinku.
 
@@ -20,10 +20,10 @@ Skrypt realizuje następującą sekwencję konfiguracji:
 
 3. **Inicjalizacja i skalowanie regulatora MPC**
    - Utworzenie obiektu `mpc_obj = mpc(plant_d, Ts)`.
-   - Zdefiniowanie czynników skalujących (`ScaleFactor`) na podstawie zakrogu operacyjnego zmiennych regulowanych (OV) i sterujących (MV) w celu poprawy uwarunkowania numerycznego solvera QP.
+   - Zdefiniowanie czynników skalujących (`ScaleFactor`) na podstawie zakresu operacyjnego zmiennych regulowanych (OV) i sterujących (MV) w celu poprawy uwarunkowania numerycznego solvera QP.
 
 4. **Konfiguracja ograniczeń i miękkich granic (ECR)**
-   - **Sygnały wyjściowe ($OV_1, OV_2$):** Ograniczenie poziomów w zakresie $15\% - 90\%$ wysokości $H_{\max}$ z łagodnymi zmiennymi swobodnymi ECR (`MinECR = 0.02`, `MaxECR = 0.02`), gwarantującymi wykonalność optymalizacji QP w obecności zakłóceń.
+   - **Sygnały wyjściowe ($OV_1, OV_2$):** Ograniczenie poziomów w zakresie od $15\%$ do $90\%$ wysokości maksymalnej $H_{\max}$ z łagodnymi zmiennymi swobodnymi ECR (`MinECR = 0.02`, `MaxECR = 0.02`), gwarantującymi wykonalność optymalizacji QP w obecności zakłóceń.
    - **Sygnały sterujące ($MV_1, MV_2$):** Twarde ograniczenia fizyczne pompy ($40 \le u_p \le 90$) oraz zaworu ($30 \le u_v \le 100$).
    - **Szybkości zmian sterowań:** Ograniczenie narostów sygnałów sterujących ($\Delta u_p, \Delta u_v$) wraz z tolerancjami ECR w celu uwzględnienia bezwładności elementów wykonawczych.
 
@@ -34,7 +34,7 @@ Skrypt realizuje następującą sekwencję konfiguracji:
 
 6. **Eliminacja uchybu i stan początkowy**
    - Dołączenie całkujących modeli zakłóceń wyjściowych poleceniem `setoutdist(mpc_obj, 'Integrators')`, zapewniające zerowy uchyb w stanie ustalonym.
-   - Utworzenie wektora stanu `xmpc` i ustawienie wartości początkowych poziomów ($0.5 H_{\max}$) oraz baseline'u sterowań ($MV_1 = 65, MV_2 = 70$).
+   - Utworzenie wektora stanu `xmpc` i ustawienie początkowych poziomów ($0.5 H_{\max}$) oraz początkowych wartości sterowań ($MV_1 = 65, MV_2 = 70$).
 
 ---
 
@@ -43,7 +43,7 @@ Skrypt realizuje następującą sekwencję konfiguracji:
 | Parametr | Identyfikator w kodzie | Wartość / Ustawienie | Opis |
 | :--- | :--- | :--- | :--- |
 | **Okres próbkowania** | `Ts` | $0.5\text{ s}$ | Czas dyskretyzacji i pracy regulatora |
-| **Zakres poziomów** | `OV(1)`, `OV(2)` | $[0.0573, 0.3438]\text{ m}$ | $15\% - 90\%$ wysokości $H_{\max}$ |
+| **Zakres poziomów** | `OV(1)`, `OV(2)` | $[0.0573, 0.3438]\text{ m}$ | Od $15\%$ do $90\%$ wysokości $H_{\max}$ |
 | **Zakres pompy ($MV_1$)** | `MV(1)` | $[40, 90]\%$ | Twarde ograniczenie zakresu pracy |
 | **Zakres zaworu ($MV_2$)** | `MV(2)` | $[30, 100]\%$ | Twarde ograniczenie zakresu pracy |
 | **Horyzonty** | `PredictionHorizon`, `ControlHorizon` | $N_p = 75, N_c = 3$ | Okna predykcji i sterowania |
@@ -59,3 +59,4 @@ Przed włączeniem symulacji w Simulinku skrypt należy wykonać z poziomu okna 
 
 ```matlab
 run('scripts/setup_mpc.m')
+```
