@@ -31,6 +31,7 @@ Projekt został stworzony i przetestowany w środowisku **MATLAB R2024a**.
 
 ## Struktura repozytorium
 
+```text
 ├── models/
 │   └── two_tank_cascade_mpc.slx   # Główny model symulacyjny w Simulinku
 ├── scripts/
