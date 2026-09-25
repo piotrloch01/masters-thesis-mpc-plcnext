@@ -1,6 +1,6 @@
 # Model Predictive Control (MPC) of a Two-Tank Cascade System (2x2 MIMO)
 
-> *Polska wersja dokumentacji dostępna jest w pliku [README_PL.md](README_PL.md).*
+> 🇵🇱 *Polska wersja dokumentacji dostępna jest w pliku [README_PL.md](README_PL.md).*
 
 This repository contains the complete technical implementation, simulation models, and configuration scripts for a Master's Thesis focused on designing, tuning, and evaluating an advanced Model Predictive Controller (MPC) for a non-linear two-tank cascade system under physical constraints and actuator dynamics.
 
@@ -12,7 +12,7 @@ The primary control objective is to precisely track liquid level setpoints ($h_1
 
 ### Key Features & Control Challenges
 - **$2 \times 2$ MIMO Architecture:** Simultaneous control of pump flow rate ($MV_1$) and motorized valve opening ($MV_2$) with full cross-coupling compensation.
-- **Physical Non-linearities:** Explicit consideration of pump saturation, Torricelli's outflow law, and valve backlash/dead-band ($\pm \Delta u / 2$).
+- **Physical Non-linearities:** Explicit consideration of non-linear mass balance equations, pump saturation, and valve backlash/dead-band ($\pm \Delta u / 2$).
 - **Constraint Handling:** Hard input bounds combined with soft state and rate constraints using Equal Concern Relaxation (ECR) slack variables to prevent QP solver infeasibility under unmeasured disturbances.
 - **Offset-Free Tracking:** Integration of output disturbance models with integrators (`setoutdist`) ensuring zero steady-state error under model mismatch.
 
